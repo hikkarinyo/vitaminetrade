@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {styled, useTheme} from '@mui/material/styles';
-import Drawer from '@mui/material/Drawer';
+import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -11,20 +11,92 @@ import Box from "@mui/material/Box";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import {Button, Collapse} from "@mui/material";
+import LoginIcon from '@mui/icons-material/Login';
+import {ReactComponent as Antistress} from "../components/ui/icons/antistress.svg";
+import {ReactComponent as Clock} from "../components/ui/icons/clock.svg";
+import {ReactComponent as Antioxidants} from "../components/ui/icons/antioxidants.svg";
+import {ReactComponent as Body} from "../components/ui/icons/body.svg";
+import {ReactComponent as Bones} from "../components/ui/icons/bones.svg";
+import {ReactComponent as Women} from "../components/ui/icons/women.svg";
+import {ReactComponent as Men} from "../components/ui/icons/men.svg";
+import {ReactComponent as HealthySleep} from "../components/ui/icons/healthySleep.svg";
+import {ReactComponent as StrongImmunity} from "../components/ui/icons/strongImmunity.svg";
+import {ReactComponent as Pill} from "../components/ui/icons/pill.svg";
+import {ReactComponent as Brain} from "../components/ui/icons/brain.svg";
+import {ReactComponent as Relax} from "../components/ui/icons/relax.svg";
 
 
 const drawerWidth = 280;
 
+
+const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up('sm')]: {
+        width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+});
+
 const DrawerHeader = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
 }));
 
+const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+    ({theme, open}) => ({
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    }),
+);
+
 const Menu = ({open, handleDrawerClose}) => {
+    const MyListItemButton = styled(ListItemButton)({
+        "&.Mui-selected": {
+            backgroundColor: "#2C59A5"
+        },
+        "&.Mui-focusVisible": {
+            backgroundColor: "#2C59A5"
+        },
+        ":hover": {
+            backgroundColor: "#2C59A5",
+            color: "#ffffff",
+        },
+        ":hover .icon *": {
+            stroke: "#ffffff",
+
+        },
+        ":hover .iconFill *": {
+            fill: "#ffffff",
+        }
+    });
+
     const theme = useTheme();
     const [catalog, setCatalog] = React.useState(false);
     const [doc, setDoc] = React.useState(false);
@@ -37,16 +109,7 @@ const Menu = ({open, handleDrawerClose}) => {
     };
     return (
         <Drawer
-            sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                    width: drawerWidth,
-                    boxSizing: 'border-box',
-                },
-            }}
-            variant="persistent"
-            anchor="left"
+            variant="permanent"
             open={open}
         >
             <Box display="flex"
@@ -59,112 +122,156 @@ const Menu = ({open, handleDrawerClose}) => {
                 </Box>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <MenuIcon sx={{color: '#000000'}}/> : <MenuIcon sx={{color: '#000000'}} />}
+                        {theme.direction === 'ltr' ? <MenuIcon sx={{color: '#000000'}}/> :
+                            <MenuIcon sx={{color: '#000000'}}/>}
                     </IconButton>
                 </DrawerHeader>
             </Box>
-            <Divider/>
-            <List>
-                <ListItemButton sx={{
-                    "&.Mui-selected": {
-                        backgroundColor: "#2C59A5"
-                    },
-                    "&.Mui-focusVisible": {
-                        backgroundColor: "#2C59A5"
-                    },
-                    ":hover": {
-                        backgroundColor: "#2C59A5",
+            {!open ?
+                <List>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Clock className={"icon"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Antistress className={"icon"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Antioxidants className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Women className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <HealthySleep className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <StrongImmunity className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Men className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Pill className={"icon"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Brain className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Body className={"iconFill"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Relax className={"icon"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                    <MyListItemButton sx={{mt: '20px'}}>
+                        <Bones className={"icon"} sx={{m: 'auto'}}/>
+                    </MyListItemButton>
+                </List>
+                :
+                <List>
+                    <MyListItemButton onClick={handleClickCatalog}>
+                        {open &&
+                            <ListItemText sx={{pl: 4}} primaryTypographyProps={{fontWeight: 'bold'}}
+                                          primary="Каталог"/>}
+                        {catalog ? <ExpandLess/> : <ExpandMore/>}
+                    </MyListItemButton>
+                    <Collapse in={catalog} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Anti-age"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Антистресс"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Антиоксиданты"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Женское здоровье"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Здоровый сон"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Крепкий иммунитет"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Мужское здоровье"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Омега, жирные кислоты"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Память и внимание"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Похудение и стройность"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Спокойствие и фокус"/>
+                            </MyListItemButton>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="Суставы и связки"/>
+                            </MyListItemButton>
+                        </List>
+                    </Collapse>
+                    <Divider/>
+                    <MyListItemButton sx={{pl: 6}}>
+                        <ListItemText primaryTypographyProps={{fontWeight: 'bold'}} primary="Нутрициологи"/>
+                    </MyListItemButton>
+                    <Divider/>
+                    <MyListItemButton onClick={handleClickDoc}>
+                        <ListItemText sx={{pl: 4}} primaryTypographyProps={{fontWeight: 'bold'}} primary="Документы"/>
+                        {doc ? <ExpandLess/> : <ExpandMore/>}
+                    </MyListItemButton>
+                    <Collapse in={doc} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <MyListItemButton sx={{pl: 7}}>
+                                <ListItemText primary="..."/>
+                            </MyListItemButton>
+                        </List>
+                    </Collapse>
+                </List>
+            }
+            <Box sx={{
+                position: 'absolute',
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                width: '100%',
+                height: '50px',
+            }}>
+                {open ?
+                <Button sx={{
+                    color: '#000000',
+                    textTransform: 'capitalize',
+                    fontSize: '14px',
+                    ml: 6 ,
+                    mt: 1,
+                    "&:hover": {
+                        backgroundColor: '#2C59A5',
                         color: "#ffffff"
-                    }
-                }} onClick={handleClickCatalog}>
-                    <ListItemText sx={{pl: 4}} primaryTypographyProps={{fontWeight: 'bold'}} primary="Каталог"/>
-                    {catalog ? <ExpandLess/> : <ExpandMore/>}
-                </ListItemButton>
-                <Collapse in={catalog} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Anti-age"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Антистресс"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Антиоксиданты"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Женское здоровье"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Здоровый сон"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Крепкий иммунитет"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Мужское здоровье"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Омега, жирные кислоты"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Память и внимание"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Похудение и стройность"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Спокойствие и фокус"/>
-                        </ListItemButton>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="Суставы и связки"/>
-                        </ListItemButton>
-                    </List>
-                </Collapse>
-                <Divider/>
-                <ListItemButton sx={{
-                    pl: 6,
-                    "&.Mui-selected": {
-                        backgroundColor: "#2C59A5"
                     },
-                    "&.Mui-focusVisible": {
-                        backgroundColor: "#2C59A5"
-                    },
-                    ":hover": {
-                        backgroundColor: "#2C59A5",
+                    "&:active": {
+                        backgroundColor: '#2C59A5',
                         color: "#ffffff"
-                    }
-                }}>
-                    <ListItemText primaryTypographyProps={{fontWeight: 'bold'}} primary="Нутрициологи"/>
-                </ListItemButton>
-                <Divider/>
-
-                <ListItemButton sx={{
-                    "&.Mui-selected": {
-                        backgroundColor: "#2C59A5"
                     },
-                    "&.Mui-focusVisible": {
-                        backgroundColor: "#2C59A5"
-                    },
-                    ":hover": {
-                        backgroundColor: "#2C59A5",
-                        color: "#ffffff"
-                    }
-                }} onClick={handleClickDoc}>
-                    <ListItemText sx={{pl: 4}} primaryTypographyProps={{fontWeight: 'bold'}}  primary="Документы"/>
-                    {doc ? <ExpandLess/> : <ExpandMore/>}
-                </ListItemButton>
-                <Collapse in={doc} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{pl: 7}}>
-                            <ListItemText primary="..."/>
-                        </ListItemButton>
-                    </List>
-                </Collapse>
-            </List>
-            <Button sx={{position: 'absolute',
-                bottom: 0,}}>
-                Войти
-            </Button>
+                }} startIcon={<LoginIcon sx={{fontSize: '24px'}}/>}>
+                    Войти
+                </Button>
+                    :
+                    <IconButton sx={{mt: 1, ml: 1,
+                        color: "#000000",
+                        "&:hover": {
+                            backgroundColor: '#2C59A5',
+                            color: "#ffffff"
+                        },
+                        "&:active": {
+                            backgroundColor: '#2C59A5',
+                            color: "#ffffff"
+                        },}}>
+                        <LoginIcon/>
+                    </IconButton>
+                }
+            </Box>
         </Drawer>
 
     );
