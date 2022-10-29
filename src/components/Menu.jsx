@@ -26,6 +26,7 @@ import {ReactComponent as Brain} from "../components/ui/icons/brain.svg";
 import {ReactComponent as Relax} from "../components/ui/icons/relax.svg";
 
 
+
 const drawerWidth = 280;
 
 
@@ -54,7 +55,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(4, 1, 0, 0),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
@@ -76,7 +77,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-const Menu = ({open, handleDrawerClose}) => {
+const Menu = () => {
     const MyListItemButton = styled(ListItemButton)({
         "&.Mui-selected": {
             backgroundColor: "#2C59A5"
@@ -96,10 +97,10 @@ const Menu = ({open, handleDrawerClose}) => {
             fill: "#ffffff",
         }
     });
-
     const theme = useTheme();
     const [catalog, setCatalog] = React.useState(false);
     const [doc, setDoc] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleClickCatalog = () => {
         setCatalog(!catalog);
@@ -107,6 +108,14 @@ const Menu = ({open, handleDrawerClose}) => {
     const handleClickDoc = () => {
         setDoc(!doc);
     };
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
     return (
         <Drawer
             variant="permanent"
@@ -116,18 +125,35 @@ const Menu = ({open, handleDrawerClose}) => {
                  justifyContent="center"
                  alignItems="center"
                  minHeight="100px"
-            >
-                <Box sx={{pl: '40px', pr: '30px'}}>
-                    <img src={"../images/logo.png"} alt={"logo"} width={"132px"}/>
-                </Box>
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
+            >{!open ?
+                <DrawerHeader sx={{m: 'auto'}}>
+                    <IconButton onClick={handleDrawerOpen}>
                         {theme.direction === 'ltr' ? <MenuIcon sx={{color: '#000000'}}/> :
                             <MenuIcon sx={{color: '#000000'}}/>}
                     </IconButton>
                 </DrawerHeader>
+                :
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
+                    <Box sx={{pl: '40px', pr: '30px', pt: '40px'}}>
+                        <img src={"../images/logo.png"} alt={"logo"} width={"132px"}/>
+                    </Box>
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <MenuIcon sx={{color: '#000000'}}/> :
+                                <MenuIcon sx={{color: '#000000'}}/>}
+                        </IconButton>
+                    </DrawerHeader>
+                </Box>
+
+            }
             </Box>
             {!open ?
+
+
                 <List>
                     <MyListItemButton sx={{mt: '20px'}}>
                         <Clock className={"icon"} sx={{m: 'auto'}}/>
@@ -166,6 +192,7 @@ const Menu = ({open, handleDrawerClose}) => {
                         <Bones className={"icon"} sx={{m: 'auto'}}/>
                     </MyListItemButton>
                 </List>
+
                 :
                 <List>
                     <MyListItemButton onClick={handleClickCatalog}>
@@ -240,25 +267,26 @@ const Menu = ({open, handleDrawerClose}) => {
                 height: '50px',
             }}>
                 {open ?
-                <Button sx={{
-                    color: '#000000',
-                    textTransform: 'capitalize',
-                    fontSize: '14px',
-                    ml: 6 ,
-                    mt: 1,
-                    "&:hover": {
-                        backgroundColor: '#2C59A5',
-                        color: "#ffffff"
-                    },
-                    "&:active": {
-                        backgroundColor: '#2C59A5',
-                        color: "#ffffff"
-                    },
-                }} startIcon={<LoginIcon sx={{fontSize: '24px'}}/>}>
-                    Войти
-                </Button>
+                    <Button sx={{
+                        color: '#000000',
+                        textTransform: 'capitalize',
+                        fontSize: '14px',
+                        ml: 6,
+                        mt: 1,
+                        "&:hover": {
+                            backgroundColor: '#2C59A5',
+                            color: "#ffffff"
+                        },
+                        "&:active": {
+                            backgroundColor: '#2C59A5',
+                            color: "#ffffff"
+                        },
+                    }} startIcon={<LoginIcon sx={{fontSize: '24px'}}/>}>
+                        Войти
+                    </Button>
                     :
-                    <IconButton sx={{mt: 1, ml: 1,
+                    <IconButton sx={{
+                        mt: 1, ml: 1,
                         color: "#000000",
                         "&:hover": {
                             backgroundColor: '#2C59A5',
@@ -267,7 +295,8 @@ const Menu = ({open, handleDrawerClose}) => {
                         "&:active": {
                             backgroundColor: '#2C59A5',
                             color: "#ffffff"
-                        },}}>
+                        },
+                    }}>
                         <LoginIcon/>
                     </IconButton>
                 }
