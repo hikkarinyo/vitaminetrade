@@ -76,26 +76,28 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-const Menu = () => {
-    const MyListItemButton = styled(ListItemButton)({
-        "&.Mui-selected": {
-            backgroundColor: "#2C59A5"
-        },
-        "&.Mui-focusVisible": {
-            backgroundColor: "#2C59A5"
-        },
-        ":hover": {
-            backgroundColor: "#2C59A5",
-            color: "#ffffff",
-        },
-        ":hover .icon *": {
-            stroke: "#ffffff",
+const MyListItemButton = styled(ListItemButton)({
+    "&.Mui-selected": {
+        backgroundColor: "#2C59A5"
+    },
+    "&.Mui-focusVisible": {
+        backgroundColor: "#2C59A5"
+    },
+    ":hover": {
+        backgroundColor: "#2C59A5",
+        color: "#ffffff",
+    },
+    ":hover .icon *": {
+        stroke: "#ffffff",
 
-        },
-        ":hover .iconFill *": {
-            fill: "#ffffff",
-        }
-    });
+    },
+    ":hover .iconFill *": {
+        fill: "#ffffff",
+    }
+});
+
+const Menu = () => {
+
     const theme = useTheme();
     const [catalog, setCatalog] = React.useState(false);
     const [doc, setDoc] = React.useState(false);

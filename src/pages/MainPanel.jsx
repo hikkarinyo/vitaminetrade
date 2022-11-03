@@ -3,6 +3,7 @@ import Menu from "../components/Menu";
 import {styled} from "@mui/material/styles";
 import Box from '@mui/material/Box';
 import Table from "../components/Table"
+import Course from "../components/Course";
 
 
 
@@ -48,6 +49,7 @@ const MainPanel = () => {
                 <DrawerHeader/>
                 <Table/>
             </Box>
+            <Course/>
         </Box>
     );
 }
