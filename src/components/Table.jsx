@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {Button, Container, Stack, Typography} from "@mui/material";
+import {Avatar, Button, Container, Stack, TableCell, Typography} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import {Piano} from "@mui/icons-material";
 
 const Table = () => {
-
 
 
     const MyTable = styled(Box)({
@@ -30,12 +30,14 @@ const Table = () => {
         }
     });
 
-    const MyCell = styled(Box)({
+    const MyCell = styled(TableCell)({
         display: 'table-cell',
         maxWidth: '350px',
         minWidth: '150px',
         color: "#000000",
+
     });
+
 
     const MyRow = styled(Box)({
         display: 'table-row',
@@ -60,7 +62,7 @@ const Table = () => {
             <div>
                 <MyTable>
                     <MyHeaderRow>
-                        <MyCell>
+                        <MyCell colSpan={2}>
                             <Typography>Биодобавка</Typography>
                         </MyCell>
                         <MyCell>
@@ -71,6 +73,55 @@ const Table = () => {
                         </MyCell>
                         <MyCell/>
                     </MyHeaderRow>
+                    <MyRow>
+                        <MyCell>
+
+                            <img alt={"picture"} style={{
+                                width: '56px',
+                                height: '56px',
+                                borderRadius: '50px',
+                            }} src={"/images/response.jpeg"}/>
+                        </MyCell>
+                        <MyCell>
+                            <Box display="flex"
+                                 justifyContent="center"
+                                 alignItems="center"
+                                 sx={{mt: 1}}
+                            >
+                                <Typography>Омега-3</Typography>
+                            </Box>
+                        </MyCell>
+                        <MyCell>
+                            <Box display="flex"
+                                 justifyContent="flex-start"
+                                 alignItems="center"
+                                 sx={{mt: 1}}
+                            >
+                                <Typography sx={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.64)',}}>Гиалуроновая и
+                                    альфа-липоевая кислоты, усиленные дозировки по железу и
+                                    витамину</Typography>
+                            </Box>
+                        </MyCell>
+                        <MyCell>
+                            <Box display="flex"
+                                 justifyContent="center"
+                                 alignItems="center"
+                                 sx={{mt: 1}}
+                            >
+                                <Typography sx={{fontWeight: 'bold'}}>196 ₽</Typography>
+                            </Box>
+                        </MyCell>
+                        <MyCell>
+                            <Box display="flex"
+                                 justifyContent="center"
+                                 alignItems="center"
+                                 sx={{mt: 1}}
+                            >
+                                <Button>Добавить</Button>
+                            </Box>
+                        </MyCell>
+
+                    </MyRow>
                 </MyTable>
             </div>
         </Container>
