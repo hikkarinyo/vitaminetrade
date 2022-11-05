@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {Button, MenuItem, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
-import SortIcon from "@mui/icons-material/Sort";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import {useState} from "react";
@@ -40,15 +39,10 @@ const MyButton = styled(Button)({
 })
 
 const Dialog = ({open, handleClose}) => {
-    const [data, setData] = useState({
-        day: '',
-        time: '',
-        dosage: ''
-    });
+    const [day, setDay] = useState("");
+    const [time, setTime] = useState("");
+    const [dosage, setDosage] = useState("");
 
-    const handleSubmit = (data) => {
-        setData(data);
-    }
     return (
         <Modal
             open={open}
@@ -61,38 +55,44 @@ const Dialog = ({open, handleClose}) => {
                     justifyContent: 'center',
                     borderBottom: '2px solid #E0E0E0',
                 }}>
+                    {(day && time && dosage) &&
+                        <Typography sx={{mt: 2, mr: 2}}>{day} приём: {time} {dosage} шт.</Typography>
+                    }
                     <Typography sx={{m: 'auto', ml: '5px', fontWeight: 'bold'}}>Омега-3</Typography>
                     <img alt={"pill"}
                          style={{width: '32px', height: '32px', borderRadius: '50px', margin: '15px 20px'}}
                          src={"/images/response.jpeg"}/>
                 </Box>
-                <Box component="form" onSubmit={handleSubmit} sx={{
+                <Box component="form" sx={{
                     '& .MuiTextField-root': {mr: 2, ml: 2, mt: 3, mb: 1},
                 }}>
-                    <TextField  sx={{width: '200px', height: '60px', borderRadius: '8px'}} label="Как принимать?"
+                    <TextField sx={{width: '200px', height: '60px', borderRadius: '8px'}} label="Как принимать?"
                                select
-                               value={"Ежедневно"}>
+                               defaultValue={"Ежедневно"}>
                         <MenuItem value={"Ежедневно"}>Ежедневно</MenuItem>
                     </TextField>
 
-                    <TextField name="day" sx={{width: '200px', height: '60px', borderRadius: '8px'}}
-                               label="Сколько раз в день?" select value={"1"}>
+                    <TextField
+                        value={day ? day : 1}
+                        onChange={(e) => setDay(e.target.value)}
+                        sx={{width: '200px', height: '60px', borderRadius: '8px'}}
+                        label="Сколько раз в день?" select>
                         <MenuItem value={"1"}>1</MenuItem>
-                        <MenuItem value={"2"}>2</MenuItem>
-                        <MenuItem value={"3 "}>3</MenuItem>
                     </TextField>
-                    <TextField name="time" type="time" defaultValue="11:00"
+                    <TextField value={time ? time : "11:00"}
+                               onChange={(e) => setTime(e.target.value)} type="time"
                                sx={{width: '105px', height: '60px', borderRadius: '8px'}} label="Время"/>
-                    <TextField name="dosage" sx={{width: '200px', height: '60px', borderRadius: '8px'}} label="Дозировка"
-                               select
-                               value={"1"}>
+                    <TextField value={dosage ? dosage : 1}
+                               onChange={(e) => setDosage(e.target.value)} name="dosage"
+                               sx={{width: '200px', height: '60px', borderRadius: '8px'}} label="Дозировка"
+                               select>
                         <MenuItem value={"1"}>1 таблетка</MenuItem>
                         <MenuItem value={"2"}>2 таблетки</MenuItem>
                     </TextField>
                     <IconButton onClick={handleClose} sx={{mt: 4}}>
                         <CloseIcon/>
                     </IconButton>
-                    <MyButton sx={{float: 'right', mt: 1, mr: 10, mb: 2}}>Добавить в курс</MyButton>
+                    <MyButton onClick={handleClose} sx={{float: 'right', mt: 1, mr: 10, mb: 2}}>Добавить в курс</MyButton>
                 </Box>
             </Box>
         </Modal>

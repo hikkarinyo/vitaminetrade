@@ -2,7 +2,6 @@ import * as React from 'react';
 import {styled, useTheme} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import ListItemButton from '@mui/material/ListItemButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
@@ -50,14 +49,6 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
     }),
 );
-const DrawerHeader = styled('div')(({theme}) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(4, 1, 0, 0),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-}));
 
 
 const Course = () => {
