@@ -2,11 +2,13 @@ import * as React from 'react';
 import {styled, useTheme} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Box from "@mui/material/Box";
-import {Typography} from "@mui/material";
+import {Link, MenuItem, TextField, Typography} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
+import {useState} from "react";
+import MyAccordionTime from "./AccordionTime";
+import MyAccordionBio from "./AccordionBio";
+import MyAccordionMap from "./AccardionMap";
 
 const drawerWidth = 280;
 
@@ -20,15 +22,16 @@ const openedMixin = (theme) => ({
 });
 
 const closedMixin = (theme) => ({
+    width: 700,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
+    // width: `calc(${theme.spacing(7)} + 1px)`,
+    // [theme.breakpoints.up('sm')]: {
+    //     width: `calc(${theme.spacing(8)} + 1px)`,
+    // },
 });
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
@@ -49,17 +52,33 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
     }),
 );
+;
 
 
 const Course = () => {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = useState(false);
+    const [time, setTime] = useState(true);
+    const [bio, setBio] = useState(false);
+    const [expanded, setExpanded] = useState('panel1');
+
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
     };
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+    const handleTimeOpen = () => {
+        setTime(true);
+        setBio(false);
+    };
+    const handleBioOpen = () => {
+        setBio(true);
+        setTime(false);
     };
 
     return (
@@ -71,42 +90,107 @@ const Course = () => {
         >
             <Box>
                 <Box display="flex"
-                     justifyContent="center"
+                     justifyContent="flex-start"
                      alignItems="center"
                      minHeight="100px"
                 >
                     {!open ?
-                        <IconButton onClick={handleDrawerOpen}>
-                            {theme.direction === 'ltr' ? <MenuIcon sx={{color: '#000000'}}/> :
-                                <MenuIcon sx={{color: '#000000'}}/>}
-                        </IconButton>
+                        <Box sx={{mt: 3, ml: 2}}>
+                            <Box
+                                display="flex"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                            >
+                                <IconButton onClick={handleDrawerOpen}>
+                                    {theme.direction === 'ltr' ?
+                                        <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.72)', fontSize: '16px'}}/> :
+                                        <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.72)', fontSize: '16px'}}/>}
+                                </IconButton>
+                                <Typography sx={{fontSize: '16px', fontWeight: 'medium', m: 'auto', ml: 1}}>
+                                    Мой курс приёма
+                                </Typography>
+                                <TextField value={"4 недели"} size={"small"} select sx={{m: 'auto'}}>
+                                    <MenuItem value={"4 недели"}>4 недели</MenuItem>
+                                </TextField>
+                                <Link sx={{
+                                    fontSize: '16px',
+                                    m: "auto",
+                                    textDecoration: "underline dotted",
+                                    cursor: 'pointer'
+                                }}>Свернуть
+                                    всё</Link>
+                            </Box>
+                            <Box
+                                sx={{borderBottom: "2px solid #d1d1d1", p: 2, position: ' relative', mt: 2}}>
+                                <Typography onClick={handleTimeOpen} sx={{
+                                    cursor: "pointer",
+                                    borderBottom: time ? "2px solid #2662C9" : "2px solid transparent",
+                                    pl: 2,
+                                    pr: 2,
+                                    position: 'absolute',
+                                    bottom: '-2px'
+                                }}>ПО ВРЕМЕНИ ПРИЁМА</Typography>
+                                <Typography onClick={handleBioOpen} sx={{
+                                    cursor: "pointer",
+                                    ml: 5,
+                                    pl: 2,
+                                    pr: 2,
+                                    borderBottom: bio ? "2px solid #2662C9" : "2px solid transparent",
+                                    position: 'absolute',
+                                    bottom: '-2px',
+                                    left: '200px'
+                                }}>ПО БИОДОБАВКЕ</Typography>
+                            </Box>
+                            {time ?
+                                <Box sx={{mt: 2,}}>
+                                    <MyAccordionTime/>
+                                    <MyAccordionTime/>
+                                    <MyAccordionTime/>
+                                    <MyAccordionMap/>
+                                </Box>
+                                :
+                                <Box sx={{mt: 2,}}>
+                                    <MyAccordionBio/>
+                                </Box>
+                            }
+                        </Box>
                         :
-                        <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                        }}>
-                            <IconButton sx={{mr: '5px'}} onClick={handleDrawerClose}>
-                                {theme.direction === 'ltr' ?
-                                    <ArrowBackIosIcon sx={{color: '#000000', fontSize: '14px'}}/> :
-                                    <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.72)', fontSize: '24px'}}/>}
-                            </IconButton>
-                            <Typography sx={{fontSize: '22px', fontWeight: 'medium', m: 'auto'}}>
-                                Мой курс приёма
-                            </Typography>
+                        <Box>
+                            <Box sx={{
+                                mt: 3,
+                                ml: 2,
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}>
+                                <IconButton sx={{mr: '5px'}} onClick={handleDrawerClose}>
+                                    {theme.direction === 'ltr' ?
+                                        <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.72)', fontSize: '16px'}}/> :
+                                        <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.72)', fontSize: '16px'}}/>
+                                    }
+                                </IconButton>
+                                <Typography sx={{fontSize: '16px', fontWeight: 'medium', m: 'auto'}}>
+                                    Мой курс приёма
+                                </Typography>
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    ml: 2,
+                                    mt: 2,
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-center',
+                                }}
+                            >
+                                <img alt={"pill"}
+                                     style={{width: '32px', height: '32px', borderRadius: '50px',}}
+                                     src={"/images/response.jpeg"}/>
+                                <Typography sx={{ml: 2}}>Омега-3</Typography>
+                            </Box>
                         </Box>
                     }
                 </Box>
-                {open &&
-                    <Box display="flex"
-                         justifyContent="center"
-                         alignItems="center"
-                    >
-                        <Typography sx={{whiteSpace: 'pre-wrap', m: 'auto 60px'}}>Выберите биодобавку, чтобы собрать свой
-                            персональный
-                            курс </Typography>
-                    </Box>
-                }
             </Box>
         </Drawer>
 

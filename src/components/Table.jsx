@@ -72,7 +72,7 @@ const MyRow = styled(Box)({
 });
 
 const Table = () => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (

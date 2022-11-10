@@ -268,8 +268,8 @@ const Menu = () => {
                 <Box sx={{
                     backgroundColor: 'rgba(0, 0, 0, 0.04)',
                     width: '100%',
-                    bottom: !catalog ? 0 : 'none',
-                    position:!catalog ? 'absolute': 'none'
+                    bottom: open && !catalog ? 0 : 'unset',
+                    position:open && !catalog ? 'absolute': 'unset'
                 }}>
                     {open ?
                         <Button sx={{
