@@ -22,16 +22,12 @@ const openedMixin = (theme) => ({
 });
 
 const closedMixin = (theme) => ({
-    width: 700,
+    width: 650,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    // width: `calc(${theme.spacing(7)} + 1px)`,
-    // [theme.breakpoints.up('sm')]: {
-    //     width: `calc(${theme.spacing(8)} + 1px)`,
-    // },
 });
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
@@ -57,15 +53,9 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 const Course = () => {
     const theme = useTheme();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [time, setTime] = useState(true);
     const [bio, setBio] = useState(false);
-    const [expanded, setExpanded] = useState('panel1');
-
-    const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-    };
-
     const handleDrawerOpen = () => {
         setOpen(true);
     };

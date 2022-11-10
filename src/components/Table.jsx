@@ -4,8 +4,10 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import SortIcon from '@mui/icons-material/Sort';
 import IconButton from "@mui/material/IconButton";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Dialog from "./Dialog";
+import {useDispatch, useSelector} from "react-redux";
+import {getSupplementsList} from "../store/slices/SupplementsListSlice"
 
 const MyTable = styled(Box)({
     display: 'table',
@@ -32,7 +34,7 @@ const MyHeaderRow = styled(Box)({
 const MyCell = styled(Box)({
     display: 'table-cell',
     maxWidth: '350px',
-    minWidth: '130px',
+    minWidth: '160px',
     color: "#000000",
 
 });
@@ -75,6 +77,13 @@ const Table = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const dispatch = useDispatch();
+    const {supplements} = useSelector(((state) => state.supplements))
+
+    useEffect(() => {
+        dispatch(getSupplementsList());
+    }, [dispatch])
+
     return (
         <Container>
             {open && <Dialog open={open} handleClose={handleClose}/>}
@@ -82,22 +91,27 @@ const Table = () => {
                 <MyTable>
                     <MyHeaderRow>
                         <MyCell sx={{padding: "0"}}>
-                            <Typography sx={{margin: 'auto 2px', display: "inline-block"}}>Биодобавка</Typography>
-                            <IconButton sx={{display: "inline-block"}}>
+                            <Typography sx={{m: 'auto',ml:1, display: "inline-block"}}>Биодобавка</Typography>
+                            <IconButton sx={{display: "inline-block", ml: 1}}>
                                 <SortIcon/>
                             </IconButton>
                         </MyCell>
                         <MyCell sx={{padding: 0}}>
                             <Typography>Описание</Typography>
                         </MyCell>
-                        <MyCell sx={{padding: 0}}>
-                            <Typography sx={{margin: 'auto 2px', display: "inline-block"}}> Цена за шт., ₽</Typography>
-                            <IconButton sx={{display: "inline-block"}}>
+                        <MyCell sx={{
+                            display: "flex",
+                            flexDirection: 'row',
+                            justifyContent: 'center'
+                        }}>
+                            <Typography sx={{m: 'auto'}}> Цена за шт., ₽</Typography>
+                            <IconButton sx={{m: 'auto'}}>
                                 <SortIcon/>
                             </IconButton>
                         </MyCell>
                         <MyCell/>
                     </MyHeaderRow>
+                    {supplements.map((d) => (
                     <MyRow>
                         <MyCell>
                             <Box sx={{
@@ -105,16 +119,14 @@ const Table = () => {
                                 flexDirection: 'row-reverse',
                                 justifyContent: 'center',
                             }}>
-                                <Typography sx={{m: 'auto', ml: '25px'}}>Омега-3</Typography>
+                                <Typography sx={{m: 'auto', ml: '25px'}}>{d.GoodsCommercialName}</Typography>
                                 <img sx={{m: 'auto 10px'}} alt={"pill"}
                                      style={{width: '56px', height: '56px', borderRadius: '50px'}}
-                                     src={"/images/response.jpeg"}/>
+                                     src={d.Picture}/>
                             </Box>
                         </MyCell>
                         <MyCell>
-                            <Typography sx={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.64)',}}>Гиалуроновая и
-                                альфа-липоевая кислоты, усиленные дозировки по железу и
-                                витамину
+                            <Typography sx={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.64)',}}>{d.CommercialDescription}
                             </Typography>
                         </MyCell>
                         <MyCell>
@@ -123,45 +135,14 @@ const Table = () => {
                                 flexDirection: 'flex-end',
                                 justifyContent: 'center',
                             }}>
-                                <Typography sx={{fontWeight: 'bold', m: 'auto'}}>196 ₽</Typography>
+                                <Typography sx={{fontWeight: 'bold', m: 'auto'}}>{d.CurrentPrices} ₽</Typography>
                             </Box>
                         </MyCell>
                         <MyCell>
                             <MyButton onClick={handleOpen}>Добавить</MyButton>
                         </MyCell>
                     </MyRow>
-                    <MyRow>
-                        <MyCell>
-                            <Box sx={{
-                                display: "flex",
-                                flexDirection: 'row-reverse',
-                                justifyContent: 'center',
-                            }}>
-                                <Typography sx={{m: 'auto', ml: '25px'}}>Омега-3</Typography>
-                                <img sx={{m: 'auto 10px'}} alt={"pill"}
-                                     style={{width: '56px', height: '56px', borderRadius: '50px'}}
-                                     src={"/images/response.jpeg"}/>
-                            </Box>
-                        </MyCell>
-                        <MyCell>
-                            <Typography sx={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.64)',}}>Гиалуроновая и
-                                альфа-липоевая кислоты, усиленные дозировки по железу и
-                                витамину
-                            </Typography>
-                        </MyCell>
-                        <MyCell>
-                            <Box sx={{
-                                display: "flex",
-                                flexDirection: 'flex-end',
-                                justifyContent: 'center',
-                            }}>
-                                <Typography sx={{fontWeight: 'bold', m: 'auto'}}>196 ₽</Typography>
-                            </Box>
-                        </MyCell>
-                        <MyCell>
-                            <MyButton>Добавить</MyButton>
-                        </MyCell>
-                    </MyRow>
+                    ))}
                 </MyTable>
             </div>
         </Container>

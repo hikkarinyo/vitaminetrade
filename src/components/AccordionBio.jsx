@@ -4,7 +4,6 @@ import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Box from "@mui/material/Box";
 import {Link, MenuItem, TextField, Typography} from "@mui/material";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
@@ -16,7 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={2}  {...props}/>
 ))(({theme}) => ({
-    width: 670,
+    width: 620,
     border: `1px solid ${theme.palette.divider}`,
     '&:not(:last-child)': {
         borderBottom: 0,
@@ -73,8 +72,8 @@ const MyAccordionBio = () => {
                      style={{width: '32px', height: '32px', borderRadius: '50px', margin: 'auto 20px'}}
                      src={"/images/response.jpeg"}/>
                 <Typography sx={{fontWeight: 'bold', m: 'auto 0',}}>Омега-3</Typography>
-                <IconButton>
-                    <DeleteOutlineIcon sx={{color: '#A61911', ml: 50}}/>
+                <IconButton sx={{ml: 45}}>
+                    <DeleteOutlineIcon sx={{color: '#A61911', }}/>
                 </IconButton>
             </AccordionSummary>
             <AccordionDetails>
