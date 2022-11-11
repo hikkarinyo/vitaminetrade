@@ -82,7 +82,7 @@ const Table = () => {
     const location = useLocation();
     const {supplements} = useSelector(((state) => state.supplements))
     const linkname = location.pathname;
-    console.log(linkname)
+
 
     const catalog = (linkname) => {
         switch (linkname) {
@@ -118,6 +118,7 @@ const Table = () => {
     useEffect(() => {
         dispatch(getSupplementsList());
     }, [dispatch])
+
     return (
         <Container>
             {open && <Dialog open={open} handleClose={handleClose}/>}
@@ -145,8 +146,7 @@ const Table = () => {
                         </MyCell>
                         <MyCell/>
                     </MyHeaderRow>
-                    {/*{supplements.map(d => {*/}
-                    {supplements.map(d => d.Purposes.filter(name => name.Purpose.includes(catalog(linkname))).map(filtered =>
+                    {supplements.map(d => d.Purposes.filter(name => name.Purpose === (catalog(linkname))).map(filtered =>
                         <MyRow>
                             <MyCell>
                                 <Box sx={{

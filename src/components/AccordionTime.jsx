@@ -1,6 +1,5 @@
 import * as React from 'react';
-import {styled, useTheme} from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
+import {styled} from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Box from "@mui/material/Box";
 import {MenuItem, TextField, Typography} from "@mui/material";

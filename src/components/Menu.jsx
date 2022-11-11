@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Box from "@mui/material/Box";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import {Button, Collapse, Link} from "@mui/material";
+import {Button, Collapse} from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
 import {ReactComponent as Antistress} from "../components/ui/icons/antistress.svg";
 import {ReactComponent as Clock} from "../components/ui/icons/clock.svg";
@@ -24,10 +24,10 @@ import {ReactComponent as StrongImmunity} from "../components/ui/icons/strongImm
 import {ReactComponent as Pill} from "../components/ui/icons/pill.svg";
 import {ReactComponent as Brain} from "../components/ui/icons/brain.svg";
 import {ReactComponent as Relax} from "../components/ui/icons/relax.svg";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {getSupplementsList} from "../store/slices/SupplementsListSlice";
-
+import {useLocation, useNavigate} from "react-router-dom"
 
 const drawerWidth = 280;
 
@@ -79,21 +79,18 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-const MyLink = styled(Link)({
-   textDecoration: 'none',
-    color: '#000'
-});
 
 const MyListItemButton = styled(ListItemButton)({
     "&.Mui-selected": {
-        backgroundColor: "#2C59A5"
+        backgroundColor: "#2C59A5",
+        color: "#fff"
     },
     "&.Mui-focusVisible": {
         backgroundColor: "#2C59A5"
     },
     ":hover": {
         backgroundColor: "#2C59A5",
-        color: "#ffffff",
+        color: "#fff"
     },
     ":hover .icon *": {
         stroke: "#ffffff",
@@ -108,17 +105,19 @@ const Menu = () => {
 
     const theme = useTheme();
     const dispatch = useDispatch();
-    const {supplements} = useSelector(((state) => state.supplements))
     const [catalog, setCatalog] = React.useState(false);
     const [doc, setDoc] = React.useState(false);
     const [open, setOpen] = React.useState(true);
-
+    const history = useNavigate();
+    const location = useLocation();
+    console.log(location.pathname)
     useEffect(() => {
         dispatch(getSupplementsList());
     }, [dispatch])
 
     const handleClickCatalog = () => {
         setCatalog(!catalog);
+        history("/")
     };
     const handleClickDoc = () => {
         setDoc(!doc);
@@ -173,42 +172,62 @@ const Menu = () => {
                 {!open ?
 
                     <List>
-                        <MyListItemButton sx={{mt: '20px'}}>
+                        <MyListItemButton onClick={() => history("/antiage")} sx={{mt: '20px'}}>
                             <Clock className={"icon"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+                        <MyListItemButton onClick={() => history("/antistress")} sx={{mt: '20px'}}>
                             <Antistress className={"icon"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+                        <MyListItemButton onClick={() => history("/antiage")} sx={{mt: '20px'}}>
                             <Antioxidants className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/women")} sx={{mt: '20px'}}>
                             <Women className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/healthysleep")} sx={{mt: '20px'}}>
                             <HealthySleep className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/strongimmunity")} sx={{mt: '20px'}}>
                             <StrongImmunity className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/man")} sx={{mt: '20px'}}>
                             <Men className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/omega")} sx={{mt: '20px'}}>
                             <Pill className={"icon"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/memory")} sx={{mt: '20px'}}>
                             <Brain className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/weightloss")} sx={{mt: '20px'}}>
                             <Body className={"iconFill"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/relax")} sx={{mt: '20px'}}>
                             <Relax className={"icon"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
-                        <MyListItemButton sx={{mt: '20px'}}>
+
+
+                        <MyListItemButton onClick={() => history("/joint")} x={{mt: '20px'}}>
                             <Bones className={"icon"} sx={{m: 'auto'}}/>
                         </MyListItemButton>
+
                     </List>
 
                     :
@@ -221,42 +240,44 @@ const Menu = () => {
                         </MyListItemButton>
                         <Collapse in={catalog} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                <MyLink  href={"antistress"}>
-                                    <MyListItemButton sx={{pl: 7}}>
-                                        <ListItemText primary="Anti-age"/>
-                                    </MyListItemButton>
-                                </MyLink>
-                                <MyListItemButton sx={{pl: 7}}>
-                                    <ListItemText primary="Антистресс" href={'Антистресс'}/>
+                                <MyListItemButton
+                                    selected={location.pathname === '/antiage'}
+                                    onClick={() => history("/antiage")}
+                                    sx={{pl: 7}}>
+                                    <ListItemText primary="Anti-age"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/antistress'} onClick={() => history("/antistress")} sx={{pl: 7}}>
+                                    <ListItemText primary="Антистресс"/>
+                                </MyListItemButton>
+                                <MyListItemButton  selected={location.pathname === '/antioxidants'} onClick={() => history("/antioxidants")} sx={{pl: 7}}>
                                     <ListItemText primary="Антиоксиданты"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+
+                                <MyListItemButton  selected={location.pathname === '/women'} onClick={() => history("/women")} sx={{pl: 7}}>
                                     <ListItemText primary="Женское здоровье"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/healthysleep'} onClick={() => history("/healthysleep")} sx={{pl: 7}}>
                                     <ListItemText primary="Здоровый сон"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/strongimmunity'} onClick={() => history("/strongimmunity")} sx={{pl: 7}}>
                                     <ListItemText primary="Крепкий иммунитет"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/man'} onClick={() => history("/man")} sx={{pl: 7}}>
                                     <ListItemText primary="Мужское здоровье"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/omega'} onClick={() => history("/omega")} sx={{pl: 7}}>
                                     <ListItemText primary="Омега, жирные кислоты"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/memory'} onClick={() => history("/memory")} sx={{pl: 7}}>
                                     <ListItemText primary="Память и внимание"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/weightloss'} onClick={() => history("/weightloss")} sx={{pl: 7}}>
                                     <ListItemText primary="Похудение и стройность"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/relax'} onClick={() => history("/relax")} sx={{pl: 7}}>
                                     <ListItemText primary="Спокойствие и фокус"/>
                                 </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
+                                <MyListItemButton  selected={location.pathname === '/joint'} onClick={() => history("/joint")} sx={{pl: 7}}>
                                     <ListItemText primary="Суставы и связки"/>
                                 </MyListItemButton>
                             </List>
