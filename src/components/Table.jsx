@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import Dialog from "./Dialog";
 import {useDispatch, useSelector} from "react-redux";
 import {getSupplementsList} from "../store/slices/SupplementsListSlice"
+import {useLocation} from "react-router-dom"
 
 const MyTable = styled(Box)({
     display: 'table',
@@ -78,12 +79,45 @@ const Table = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const dispatch = useDispatch();
+    const location = useLocation();
     const {supplements} = useSelector(((state) => state.supplements))
+    const linkname = location.pathname;
+    console.log(linkname)
+
+    const catalog = (linkname) => {
+        switch (linkname) {
+            case '/antistress':
+               return  linkname = "Антистресс"
+            case '/antiage':
+                return  linkname = "Anti-age"
+            case '/antioxidants':
+                return  linkname = "Антиоксиданты"
+            case '/women':
+                return  linkname = "Женское здоровье"
+            case '/healthysleep':
+                return  linkname = "Здоровый сон"
+            case '/strongimmunity':
+                return  linkname = "Крепкий иммунитет"
+            case '/man':
+                return  linkname = "Мужское здоровье"
+            case '/omega':
+                return  linkname = "Омега, жирные кислоты"
+            case '/memory':
+                return  linkname = "Память и внимание"
+            case '/weightloss':
+                return  linkname = "Похудение и стройность"
+            case '/relax':
+                return  linkname = "Спокойствие и фокус"
+            case '/joint':
+                return  linkname = "Суставы и связки"
+            default:
+                return linkname = ''
+        }
+    }
 
     useEffect(() => {
         dispatch(getSupplementsList());
     }, [dispatch])
-
     return (
         <Container>
             {open && <Dialog open={open} handleClose={handleClose}/>}
@@ -91,7 +125,7 @@ const Table = () => {
                 <MyTable>
                     <MyHeaderRow>
                         <MyCell sx={{padding: "0"}}>
-                            <Typography sx={{m: 'auto',ml:1, display: "inline-block"}}>Биодобавка</Typography>
+                            <Typography sx={{m: 'auto', ml: 1, display: "inline-block"}}>Биодобавка</Typography>
                             <IconButton sx={{display: "inline-block", ml: 1}}>
                                 <SortIcon/>
                             </IconButton>
@@ -111,38 +145,41 @@ const Table = () => {
                         </MyCell>
                         <MyCell/>
                     </MyHeaderRow>
-                    {supplements.map((d) => (
-                    <MyRow>
-                        <MyCell>
-                            <Box sx={{
-                                display: "flex",
-                                flexDirection: 'row-reverse',
-                                justifyContent: 'center',
-                            }}>
-                                <Typography sx={{m: 'auto', ml: '25px'}}>{d.GoodsCommercialName}</Typography>
-                                <img sx={{m: 'auto 10px'}} alt={"pill"}
-                                     style={{width: '56px', height: '56px', borderRadius: '50px'}}
-                                     src={d.Picture}/>
-                            </Box>
-                        </MyCell>
-                        <MyCell>
-                            <Typography sx={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.64)',}}>{d.CommercialDescription}
-                            </Typography>
-                        </MyCell>
-                        <MyCell>
-                            <Box sx={{
-                                display: "flex",
-                                flexDirection: 'flex-end',
-                                justifyContent: 'center',
-                            }}>
-                                <Typography sx={{fontWeight: 'bold', m: 'auto'}}>{d.CurrentPrices} ₽</Typography>
-                            </Box>
-                        </MyCell>
-                        <MyCell>
-                            <MyButton onClick={handleOpen}>Добавить</MyButton>
-                        </MyCell>
-                    </MyRow>
-                    ))}
+                    {/*{supplements.map(d => {*/}
+                    {supplements.map(d => d.Purposes.filter(name => name.Purpose.includes(catalog(linkname))).map(filtered =>
+                        <MyRow>
+                            <MyCell>
+                                <Box sx={{
+                                    display: "flex",
+                                    flexDirection: 'row-reverse',
+                                    justifyContent: 'center',
+                                }}>
+                                    <Typography sx={{m: 'auto', ml: '25px'}}>{d.GoodsCommercialName}</Typography>
+                                    <img sx={{m: 'auto 10px'}} alt={"pill"}
+                                         style={{width: '56px', height: '56px', borderRadius: '50px'}}
+                                         src={d.Picture}/>
+                                </Box>
+                            </MyCell>
+                            <MyCell>
+                                <Typography
+                                    sx={{fontSize: '14px', color: 'rgba(0, 0, 0, 0.64)',}}>{d.CommercialDescription}
+                                </Typography>
+                            </MyCell>
+                            <MyCell>
+                                <Box sx={{
+                                    display: "flex",
+                                    flexDirection: 'flex-end',
+                                    justifyContent: 'center',
+                                }}>
+                                    <Typography sx={{fontWeight: 'bold', m: 'auto'}}>{d.CurrentPrices} ₽</Typography>
+                                </Box>
+                            </MyCell>
+                            <MyCell>
+                                <MyButton onClick={handleOpen}>Добавить</MyButton>
+                            </MyCell>
+                        </MyRow>
+                    ))
+                    }
                 </MyTable>
             </div>
         </Container>

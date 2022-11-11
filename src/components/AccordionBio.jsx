@@ -70,7 +70,7 @@ const MyAccordionBio = () => {
                                       justifyContent: 'space-between',}}>
                 <img alt={"pill"}
                      style={{width: '32px', height: '32px', borderRadius: '50px', margin: 'auto 20px'}}
-                     src={"/images/response.jpeg"}/>
+                     src={"/images/image 52.png"}/>
                 <Typography sx={{fontWeight: 'bold', m: 'auto 0',}}>Омега-3</Typography>
                 <IconButton sx={{ml: 45}}>
                     <DeleteOutlineIcon sx={{color: '#A61911', }}/>

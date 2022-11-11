@@ -175,7 +175,7 @@ const Course = () => {
                             >
                                 <img alt={"pill"}
                                      style={{width: '32px', height: '32px', borderRadius: '50px',}}
-                                     src={"/images/response.jpeg"}/>
+                                     src={"/images/image 52.png"}/>
                                 <Typography sx={{ml: 2}}>Омега-3</Typography>
                             </Box>
                         </Box>

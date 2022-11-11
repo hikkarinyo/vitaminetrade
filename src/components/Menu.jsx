@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Box from "@mui/material/Box";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import {Button, Collapse} from "@mui/material";
+import {Button, Collapse, Link} from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
 import {ReactComponent as Antistress} from "../components/ui/icons/antistress.svg";
 import {ReactComponent as Clock} from "../components/ui/icons/clock.svg";
@@ -24,6 +24,9 @@ import {ReactComponent as StrongImmunity} from "../components/ui/icons/strongImm
 import {ReactComponent as Pill} from "../components/ui/icons/pill.svg";
 import {ReactComponent as Brain} from "../components/ui/icons/brain.svg";
 import {ReactComponent as Relax} from "../components/ui/icons/relax.svg";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getSupplementsList} from "../store/slices/SupplementsListSlice";
 
 
 const drawerWidth = 280;
@@ -76,6 +79,11 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
+const MyLink = styled(Link)({
+   textDecoration: 'none',
+    color: '#000'
+});
+
 const MyListItemButton = styled(ListItemButton)({
     "&.Mui-selected": {
         backgroundColor: "#2C59A5"
@@ -99,9 +107,15 @@ const MyListItemButton = styled(ListItemButton)({
 const Menu = () => {
 
     const theme = useTheme();
+    const dispatch = useDispatch();
+    const {supplements} = useSelector(((state) => state.supplements))
     const [catalog, setCatalog] = React.useState(false);
     const [doc, setDoc] = React.useState(false);
     const [open, setOpen] = React.useState(true);
+
+    useEffect(() => {
+        dispatch(getSupplementsList());
+    }, [dispatch])
 
     const handleClickCatalog = () => {
         setCatalog(!catalog);
@@ -116,7 +130,6 @@ const Menu = () => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
     return (
         <Drawer
             variant="permanent"
@@ -208,11 +221,13 @@ const Menu = () => {
                         </MyListItemButton>
                         <Collapse in={catalog} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
+                                <MyLink  href={"antistress"}>
+                                    <MyListItemButton sx={{pl: 7}}>
+                                        <ListItemText primary="Anti-age"/>
+                                    </MyListItemButton>
+                                </MyLink>
                                 <MyListItemButton sx={{pl: 7}}>
-                                    <ListItemText primary="Anti-age"/>
-                                </MyListItemButton>
-                                <MyListItemButton sx={{pl: 7}}>
-                                    <ListItemText primary="Антистресс"/>
+                                    <ListItemText primary="Антистресс" href={'Антистресс'}/>
                                 </MyListItemButton>
                                 <MyListItemButton sx={{pl: 7}}>
                                     <ListItemText primary="Антиоксиданты"/>
@@ -269,7 +284,7 @@ const Menu = () => {
                     backgroundColor: 'rgba(0, 0, 0, 0.04)',
                     width: '100%',
                     bottom: open && !catalog ? 0 : 'unset',
-                    position:open && !catalog ? 'absolute': 'unset'
+                    position: open && !catalog ? 'absolute' : 'unset'
                 }}>
                     {open ?
                         <Button sx={{

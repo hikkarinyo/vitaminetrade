@@ -92,7 +92,7 @@ const MyAccordionTime = () => {
                     <Typography sx={{m: 'auto', ml: '25px'}}>Омега-3</Typography>
                     <img sx={{m: 'auto 10px'}} alt={"pill"}
                          style={{width: '32px', height: '32px', borderRadius: '50px'}}
-                         src={"/images/response.jpeg"}/>
+                         src={"/images/image 52.png"}/>
                 </Box>
                 <Box sx={{
                     display: "flex",
